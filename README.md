@@ -12,7 +12,7 @@ l 1 2
 l 2 4
 l 4 3
 ```
-`lineobj-importer` Fixes this by using a custom parser. The parser detects when `.lineobj` files are imported via `OnPostprocessAllAssets`.
+`lineobj-importer` fixes this by using a custom parser. The parser detects when `.lineobj` files are imported via `OnPostprocessAllAssets`.
 
 ### Usage
 1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
