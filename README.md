@@ -11,7 +11,7 @@
 
 3. When you open Unity, the model should automatically be imported.
 
-### Known to work with:
+### Known to work with versions:
 * Blender: 2.78
 * Unity: 2017.1
 
