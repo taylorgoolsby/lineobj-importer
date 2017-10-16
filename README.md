@@ -1,10 +1,11 @@
 # lineobj-importer
 ### Usage
-1. Export model as `.obj`.
+1. Export model as `.obj` from Blender with these settings:
 
 ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
 
 Groups are not supported, so make sure the `.obj` doesn't have groups. Blender will automatically flatten groups with the settings shown above.
+Also, make sure to uncheck ☐ `Write Materials` and check ☑ `Triangulate Faces`.
 
 2. Rename the file extension from `.obj` to `.lineobj`
 
