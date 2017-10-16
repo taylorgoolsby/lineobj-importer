@@ -16,16 +16,16 @@ l 4 3
 
 ### Usage
 1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
-1. Export model as `.obj` from Blender with these settings:
+2. Export model as `.obj` from Blender with these settings:
 
     ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
 
     Groups are not supported, so make sure the `.obj` doesn't have groups. Blender will automatically flatten groups with the settings shown above.  
     Also, make sure to uncheck `Write Materials` and check `Triangulate Faces`.
 
-2. Rename the file extension from `.obj` to `.lineobj`
+3. Rename the file extension from `.obj` to `.lineobj`
 
-3. When you open Unity, the model should automatically be imported.
+4. When you open Unity, the model should automatically be imported.
 
 ### Known to work with versions:
 * Blender: 2.78
