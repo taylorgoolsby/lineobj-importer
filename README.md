@@ -1,5 +1,21 @@
 # lineobj-importer
+### Problem
+Whenever Unity imports a mesh, it will only recognize primitives which are connected to a face. Any floating vertices or edges will not be imported. For example, this `.obj` has no faces, so when it is imported into Unity, no `Mesh` object will be created for it:
+```
+o Plane
+v -1.000000 0.000000 1.000000
+v 1.000000 0.000000 1.000000
+v -1.000000 0.000000 -1.000000
+v 1.000000 0.000000 -1.000000
+l 3 1
+l 1 2
+l 2 4
+l 4 3
+```
+`lineobj-importer` Fixes this by using a custom parser. The parser detects when `.lineobj` files are imported via `OnPostprocessAllAssets`.
+
 ### Usage
+1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
 1. Export model as `.obj` from Blender with these settings:
 
     ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
