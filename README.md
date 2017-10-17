@@ -22,6 +22,7 @@ Before (in Blender):
 After (in Unity):
 
 ![Final](/examples/readme/final.gif?raw=true "Final")
+
 ![Prefab](/examples/readme/prefab.jpg?raw=true "Prefab")
 
 ### Usage
