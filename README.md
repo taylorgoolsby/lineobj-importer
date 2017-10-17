@@ -23,7 +23,7 @@ After (in Unity):
 
 ![Final](/examples/readme/final.gif?raw=true "Final")
 
-![Prefab](/examples/readme/prefab.JPG?raw=true "Prefab")
+![Prefab](/examples/readme/final-prefab.jpg?raw=true "Prefab")
 
 ### Usage
 1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
