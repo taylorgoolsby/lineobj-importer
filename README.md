@@ -14,18 +14,24 @@ l 4 3
 ```
 `lineobj-importer` is a custom parser to fix this problem. The parser detects when `.lineobj` files are imported via `OnPostprocessAllAssets`.
 
+### Results
+Before (in Blender):
+    !["Before"](/examples/readme/before.gif?raw=true "Before")
+
+After (in Unity):
+    !["Final"](/examples/readme/final.gif?raw=true "Final")
+
 ### Usage
 1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
 2. Export model as `.obj` from Blender with these settings:
 
     ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
 
-    Groups are not supported, so make sure the `.obj` doesn't have groups. Blender will automatically flatten groups with the settings shown above.  
-    Also, make sure to uncheck `Write Materials` and check `Triangulate Faces`.
+    Make sure to uncheck `Write Materials` and check `Triangulate Faces`.
 
 3. Rename the file extension from `.obj` to `.lineobj`
 
-4. When you open Unity, the model should automatically be imported.
+4. When you open Unity, the model should automatically be imported. All Blender objects should have been flattened and merged into a single `Mesh`.
 
 ### Known to work with versions:
 * Blender: 2.78
@@ -35,10 +41,9 @@ l 4 3
 * Vertices
 * Edges
 * Faces
-* Vertex Normals
-* Object Names
 
 ### Unsupported OBJ features
+* Vertex Normals
 * Vertex Colors
 * Texture coordinates
 * Free-form geometry (like NURBS)
@@ -46,3 +51,4 @@ l 4 3
 * Materials
 * Smooth shading
 * Groups
+* Object Names
