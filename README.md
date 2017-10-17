@@ -16,9 +16,11 @@ l 4 3
 
 ### Results
 Before (in Blender):
+
     !["Before"](/examples/readme/before.gif?raw=true "Before")
 
 After (in Unity):
+
     !["Final"](/examples/readme/final.gif?raw=true "Final")
 
 ### Usage
