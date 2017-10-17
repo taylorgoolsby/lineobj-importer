@@ -17,11 +17,11 @@ l 4 3
 ### Results
 Before (in Blender):
 
-    !["Before"](/examples/readme/before.gif?raw=true "Before")
+![Before](/examples/readme/before.gif?raw=true "Before")
 
 After (in Unity):
 
-    !["Final"](/examples/readme/final.gif?raw=true "Final")
+![Final](/examples/readme/final.gif?raw=true "Final")
 
 ### Usage
 1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
