@@ -31,7 +31,7 @@ After (in Unity):
 
     ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
 
-    Make sure to uncheck `Write Materials` and check `Triangulate Faces`.
+    The most important thing is to uncheck `Triangulate Faces`. The importer will not work if you don't triangulate the faces. Other settings like `Include UVs`, `Write Materials`, or `Write Normals` can be turned on, but this importer will ignore these settings.
 
 3. Rename the file extension from `.obj` to `.lineobj`
 
