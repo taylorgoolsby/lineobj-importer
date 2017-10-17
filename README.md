@@ -12,7 +12,7 @@ l 1 2
 l 2 4
 l 4 3
 ```
-`lineobj-importer` is a custom parser to fix this problem. The parser detects when `.lineobj` files are imported via `OnPostprocessAllAssets`.
+`lineobj-importer` is a custom parser to fix this problem. The parser detects when `.lineobj` files are imported via an experimental Unity feature available from version `2017.1` called [Scripted Importers](https://docs.unity3d.com/Manual/ScriptedImporters.html).
 
 ### Results
 Before (in Blender):
@@ -26,7 +26,7 @@ After (in Unity):
 ![Prefab](/examples/readme/final-prefab.jpg?raw=true "Prefab")
 
 ### Usage
-1. Place [LineobjPostprocessor.cs](examples/basic-usage/Assets/LineobjPostprocessor.cs) anywhere in your Unity project.
+1. Place [LineobjImporter.cs](examples/basic-usage/Assets/LineobjImporter.cs) anywhere in your Unity project.
 2. Export model as `.obj` from Blender with these settings:
 
     ![Blender export settings](/examples/readme/blender-export-settings.jpg?raw=true "Blender export settings")
