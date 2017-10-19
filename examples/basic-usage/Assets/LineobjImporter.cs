@@ -74,6 +74,7 @@ public class LineobjImporter : ScriptedImporter {
             triangleIndices[i * 3 + 2] = v3;
         }
         result.SetIndices(triangleIndices, MeshTopology.Triangles, 0, false);
+        result.RecalculateNormals();
 
         // subMesh 1 is the line mesh which uses MeshTopology.Lines
         List<string[]> e = data["e"];
@@ -88,7 +89,6 @@ public class LineobjImporter : ScriptedImporter {
         result.SetIndices(edgeIndices, MeshTopology.Lines, 1, false);
 
         result.RecalculateBounds();
-        result.RecalculateNormals();
         return result;
     }
 
