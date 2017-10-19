@@ -59,3 +59,4 @@ After (in Unity):
 
 ### Contribution
 * The current implementation is good enough for my purposes. I might add Blender plugin that enables importing `.lineobj` in order to speed up the development process, and I might add vertex normals, but beyond that, I don't foresee myself adding any more features to this for the time being. But if you would like to contribute, go ahead and submit a PR and add your name and github email to [`contributors.txt`](contributors.txt).
+* Thanks to [Tim R.](https://gamedev.stackexchange.com/users/9002/tim-r) for pointing me in the right direction.
