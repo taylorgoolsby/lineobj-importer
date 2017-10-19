@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -88,6 +88,7 @@ public class LineobjImporter : ScriptedImporter {
         result.SetIndices(edgeIndices, MeshTopology.Lines, 1, false);
 
         result.RecalculateBounds();
+        result.RecalculateNormals();
         return result;
     }
 
@@ -166,4 +167,3 @@ public class LineobjImporter : ScriptedImporter {
         return result;
     }
 }
- 
