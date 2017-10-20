@@ -16,27 +16,55 @@ public class LineobjImporter : ScriptedImporter {
         ctx.SetMainAsset("MainAsset", mainAsset);
 
         Dictionary<string, List<string[]>> obj = ParseObj(ctx.assetPath);
-        Mesh mesh = ConstructMesh(obj);
+        bool triangleSubmeshExists;
+        Mesh mesh = ConstructMesh(obj, out triangleSubmeshExists);
+        if (mesh == null) return;
         mesh.name = assetName;
         MeshFilter meshFilter = mainAsset.AddComponent<MeshFilter>();
         meshFilter.sharedMesh = mesh;
         ctx.AddSubAsset("Mesh", mesh);
 
-        Material[] materials = new Material[2];
+        Material[] materials = new Material[mesh.subMeshCount];
         Shader standard = Shader.Find("Standard");
-        materials[0] = new Material(standard);
-        materials[0].name = "Face Material";
-        materials[1] = new Material(standard);
-        materials[1].name = "Edge Material";
+        if (triangleSubmeshExists && mesh.subMeshCount == 2) {
+            materials[0] = new Material(standard);
+            materials[0].name = "Face Material";
+            materials[1] = new Material(standard);
+            materials[1].name = "Edge Material";
+            ctx.AddSubAsset("Face Material", materials[0]);
+            ctx.AddSubAsset("Edge Material", materials[1]);
+        } else if (triangleSubmeshExists && mesh.subMeshCount == 1) {
+            materials[0] = new Material(standard);
+            materials[0].name = "Face Material";
+            ctx.AddSubAsset("Face Material", materials[0]);
+        } else if (!triangleSubmeshExists && mesh.subMeshCount == 1) {
+            materials[0] = new Material(standard);
+            materials[0].name = "Edge Material";
+            ctx.AddSubAsset("Edge Material", materials[0]);
+        }
         MeshRenderer renderer = mainAsset.AddComponent<MeshRenderer>();
         renderer.materials = materials;
-        ctx.AddSubAsset("Face Material", materials[0]);
-        ctx.AddSubAsset("Edge Material", materials[1]);
     }
 
-    private Mesh ConstructMesh(Dictionary<string, List<string[]>> data) {
-        Mesh result = new Mesh();
-        result.subMeshCount = 2;
+    private Mesh ConstructMesh(Dictionary<string, List<string[]>> data, out bool triangleSubmeshExists) {
+        Mesh result;
+        List<string[]> f = data["f"];
+        List<string[]> e = data["e"];
+        triangleSubmeshExists = false;
+        if (f.Count > 0 && e.Count > 0) {
+            result = new Mesh();
+            result.subMeshCount = 2;
+            triangleSubmeshExists = true;
+        } else if (f.Count > 0) {
+            result = new Mesh();
+            result.subMeshCount = 1;
+            triangleSubmeshExists = true;
+        } else if (e.Count > 0) {
+            result = new Mesh();
+            result.subMeshCount = 1;
+        } else {
+            return null;
+        }
 
         List<string[]> v = data["v"];
         Vector3[] vertices = new Vector3[v.Count];
@@ -50,43 +78,51 @@ public class LineobjImporter : ScriptedImporter {
         result.vertices = vertices;
 
         // subMesh 0 is like a regular mesh which uses MeshTopology.Triangles
-        List<string[]> f = data["f"];
-        int[] triangleIndices = new int[f.Count * 3];
-        for (int i = 0; i < f.Count; i++) {
-            string[] raw = f[i];
-            string s1 = raw[0];
-            string s2 = raw[1];
-            string s3 = raw[2];
-            if (s1.Contains("//")) {
-                s1 = s1.Remove(s1.IndexOf("//"));
+        if (f.Count > 0) {
+            int[] triangleIndices = new int[f.Count * 3];
+            for (int i = 0; i < f.Count; i++) {
+                string[] raw = f[i];
+                string s1 = raw[0];
+                string s2 = raw[1];
+                string s3 = raw[2];
+                if (s1.Contains("//")) {
+                    s1 = s1.Remove(s1.IndexOf("//"));
+                }
+                if (s2.Contains("//")) {
+                    s2 = s2.Remove(s2.IndexOf("//"));
+                }
+                if (s3.Contains("//")) {
+                    s3 = s3.Remove(s3.IndexOf("//"));
+                }
+                int v1 = int.Parse(s1) - 1;
+                int v2 = int.Parse(s2) - 1;
+                int v3 = int.Parse(s3) - 1;
+                triangleIndices[i * 3] = v1;
+                triangleIndices[i * 3 + 1] = v2;
+                triangleIndices[i * 3 + 2] = v3;
             }
-            if (s2.Contains("//")) {
-                s2 = s2.Remove(s2.IndexOf("//"));
-            }
-            if (s3.Contains("//")) {
-                s3 = s3.Remove(s3.IndexOf("//"));
-            }
-            int v1 = int.Parse(s1) - 1;
-            int v2 = int.Parse(s2) - 1;
-            int v3 = int.Parse(s3) - 1;
-            triangleIndices[i * 3] = v1;
-            triangleIndices[i * 3 + 1] = v2;
-            triangleIndices[i * 3 + 2] = v3;
+            result.SetIndices(triangleIndices, MeshTopology.Triangles, 0, false);
+            result.RecalculateNormals();
         }
-        result.SetIndices(triangleIndices, MeshTopology.Triangles, 0, false);
-        result.RecalculateNormals();
+        
 
         // subMesh 1 is the line mesh which uses MeshTopology.Lines
-        List<string[]> e = data["e"];
-        int[] edgeIndices = new int[e.Count * 2];
-        for (int i = 0; i < e.Count; i++) {
-            string[] raw = e[i];
-            int v1 = int.Parse(raw[0]) - 1;
-            int v2 = int.Parse(raw[1]) - 1;
-            edgeIndices[i * 2] = v1;
-            edgeIndices[i * 2 + 1] = v2;
+        if (e.Count > 0) {
+            int[] edgeIndices = new int[e.Count * 2];
+            for (int i = 0; i < e.Count; i++) {
+                string[] raw = e[i];
+                int v1 = int.Parse(raw[0]) - 1;
+                int v2 = int.Parse(raw[1]) - 1;
+                edgeIndices[i * 2] = v1;
+                edgeIndices[i * 2 + 1] = v2;
+            }
+            if (triangleSubmeshExists) {
+                result.SetIndices(edgeIndices, MeshTopology.Lines, 1, false);
+            } else {
+                result.SetIndices(edgeIndices, MeshTopology.Lines, 0, false);
+            }
         }
-        result.SetIndices(edgeIndices, MeshTopology.Lines, 1, false);
+        
 
         result.RecalculateBounds();
         return result;
