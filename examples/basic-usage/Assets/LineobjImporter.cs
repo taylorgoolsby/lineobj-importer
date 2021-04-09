@@ -51,6 +51,7 @@ public class LineobjImporter : ScriptedImporter
         MeshRenderer renderer = mainAsset.AddComponent<MeshRenderer>();
         renderer.materials = materials;
 
+        ctx.AddObjectToAsset(assetName, mainAsset);
         ctx.SetMainObject(mainAsset);
     }
 
